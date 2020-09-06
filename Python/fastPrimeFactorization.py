@@ -8,9 +8,9 @@ def gen_factorization(N):
             tables[tmp]=i
             tmp+=i
     def fuctorization(n):
-        if n==1:return 1
+        if n==1:return {}
         elif n<0:n=abs(n)
-        elif n>N:return -1
+        elif n>N:return "error"
         ans={}
         while n!=1:
             tmp=tables[n]
