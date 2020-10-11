@@ -31,7 +31,7 @@ class cumsum2D:
     def __init__(self, l):
         H = len(l)
         W = len(l[0])
-        self.data = [[0] * (H + 1) for i in range(W + 1)]
+        self.data = [[0] * (W + 1) for i in range(H + 1)]
         for i in range(1, H+1):
             for j in range(1, W + 1):
                 self.data[i][j] += self.data[i][j - 1]
