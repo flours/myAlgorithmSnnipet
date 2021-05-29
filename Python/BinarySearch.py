@@ -10,6 +10,14 @@ def binarySearch(X,target,left,right):
     else:
       left=mid
       right=right-1
+ # 最も近い値が欲しい時のラップ
+def binary_search_find_closest(data,target):
+  idx=binarySearch(data,target,0,len(data)-1)
+  if idx==len(data)-1:
+      return idx
+  if abs(target-data[idx])>abs(target-data[idx+1]):
+      return idx+1
+  return idx
       
 if __name__=='__main__':
   arr=[101,102,103,104,105,106]
