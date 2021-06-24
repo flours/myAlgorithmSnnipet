@@ -1,4 +1,4 @@
-class UnionFind():
+class UnionFind:
     def __init__(self, n):
         self.n = n
         self.parents = [-1] * n
@@ -40,26 +40,28 @@ class UnionFind():
         return len(self.roots())
 
     def all_group_members(self):
-        ret={}
+        ret = {}
         for i in range(self.n):
-            root=self.find(i)
-            ret.setdefault(root,[])
+            root = self.find(i)
+            ret.setdefault(root, [])
             ret[root].append(i)
         return ret
-    def __str__(self):
-        return '\n'.join('{}: {}'.format(r, self.members(r)) for r in self.roots())
 
-if __name__=='__main__':
-  tree=UnionFind(len(arr))
-  tree.union(0,3)
-  tree.union(0,4)
-  tree.union(4,len(arr)-1)
-  tree.union(1,2)
-  tree.union(1,5)
-  tree.union(5,6)
-  tree.union(7,6)
-  tree.union(8,9)
-  tree.union(9,10)
-  tree.union(10,11)
-  tree.union(11,12)
-  print(tree.all_group_members())
+    def __str__(self):
+        return "\n".join("{}: {}".format(r, self.members(r)) for r in self.roots())
+
+
+if __name__ == "__main__":
+    tree = UnionFind(len(arr))
+    tree.union(0, 3)
+    tree.union(0, 4)
+    tree.union(4, len(arr) - 1)
+    tree.union(1, 2)
+    tree.union(1, 5)
+    tree.union(5, 6)
+    tree.union(7, 6)
+    tree.union(8, 9)
+    tree.union(9, 10)
+    tree.union(10, 11)
+    tree.union(11, 12)
+    print(tree.all_group_members())
