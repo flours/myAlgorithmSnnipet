@@ -32,7 +32,7 @@ class cumsum2D:
         H = len(l)
         W = len(l[0])
         self.data = [[0] * (W + 1) for i in range(H + 1)]
-        for i in range(1, H+1):
+        for i in range(1, H + 1):
             for j in range(1, W + 1):
                 self.data[i][j] += self.data[i][j - 1]
                 self.data[i][j] += l[i - 1][j - 1]
@@ -40,10 +40,15 @@ class cumsum2D:
                 self.data[i][j] += self.data[i - 1][j]
 
     def rangeSum(self, left, right, top, down):
-        return self.data[down][right] - self.data[top][right] - self.data[down][left] + self.data[top][left]
+        return (
+            self.data[down][right]
+            - self.data[top][right]
+            - self.data[down][left]
+            + self.data[top][left]
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     array = [1, 1, 3, 5, 4, 78, 7]
     cs = cumsum(array)
     print(cs.data)
@@ -53,10 +58,6 @@ if __name__ == '__main__':
     print(cs.rangeSum(0, 3))
 
     # 2d
-    array = [
-        [1, 2, 3],
-        [2, 3, 4],
-        [5, 6, 7]
-    ]
+    array = [[1, 2, 3], [2, 3, 4], [5, 6, 7]]
     cs = cumsum2D(array)
     print(cs.rangeSum(1, 3, 1, 3))  # 3+4+6+7
