@@ -26,7 +26,8 @@ class kitamasa:
         return double_c
 
     def calc(self, n):
-        c = self.c0
+        c = [0]*self.k
+        c[1]=1
         msb = 0
         for i in range(64, -1, -1):
             if n & (1 << i):
@@ -36,7 +37,8 @@ class kitamasa:
             c = self.double(c)
             if n & (1 << i):
                 c = self.next(c)
-        return c
+        return sum(c[i]*self.d[i] for i in range(self.k))%self.mod
+
 
 
 # fib
