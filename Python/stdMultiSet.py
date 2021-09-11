@@ -70,7 +70,7 @@ class stdMultiSet:
         while i <= self.size:
             self.tree[i] += x
             i += i & -i
-
+#ABC217D
 L,Q=map(int,input().split())
 l=[0,L]
 queries=[]
@@ -80,7 +80,7 @@ for i in range(Q):
         l+=x,
     queries+=(c,x),
 
-multiSet = stdMultiSet(l)     #試用する可能性のある数値を入れて初期化
+multiSet = stdMultiSet(l)     #使用する可能性のある数値を入れて初期化
 multiSet.add(0)
 multiSet.add(L)
 
