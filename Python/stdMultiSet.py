@@ -13,34 +13,35 @@ def binarySearch(X, target, left, right):
             left = mid
             right = right - 1
 
+
 class stdMultiSet:
     def __init__(self, valueList):
-        self.size = 1<<len(set(valueList)).bit_length()
+        self.size = 1 << len(set(valueList)).bit_length()
         self.tree = [0] * (self.size + 1)
-        self.valueSet=set(valueList)
-        self.sortedValueList=sorted(list(set(valueList)))
-        self.value2Idx={v:i+1 for i,v in enumerate(sorted(list(set(valueList))))}
-        self.idx2Value={i+1:v for i,v in enumerate(sorted(list(set(valueList))))}
-        self.length=0
+        self.valueSet = set(valueList)
+        self.sortedValueList = sorted(list(set(valueList)))
+        self.value2Idx = {v: i + 1 for i, v in enumerate(sorted(list(set(valueList))))}
+        self.idx2Value = {i + 1: v for i, v in enumerate(sorted(list(set(valueList))))}
+        self.length = 0
 
     # i番目の値を検索
-    def __getitem__(self,key):
-        if key>self.__len__() or key<=0:
-            raise "index out of range"+str(key)
-        value=0
-        idx=1<<(self.size.bit_length())-1
-        width=idx//2
+    def __getitem__(self, key):
+        if key > self.__len__() or key <= 0:
+            raise "index out of range" + str(key)
+        value = 0
+        idx = 1 << (self.size.bit_length()) - 1
+        width = idx // 2
         while width:
-            if key<=value+self.tree[idx]:
-                idx-=width
+            if key <= value + self.tree[idx]:
+                idx -= width
             else:
-                value+=self.tree[idx]
-                idx+=width
-            width//=2
-        if key<=value+self.tree[idx]:
+                value += self.tree[idx]
+                idx += width
+            width //= 2
+        if key <= value + self.tree[idx]:
             return self.idx2Value[idx]
         else:
-            return self.idx2Value[idx+1]
+            return self.idx2Value[idx + 1]
 
     def __len__(self):
         return self.length
@@ -51,36 +52,42 @@ class stdMultiSet:
             s += self.tree[i]
             i -= i & -i
         return s
-    def upper_bound(self,i):
-        return lower_bound(i+1)
-    def lower_bound(self,i):
-        idx=min(binarySearch(self.sortedValueList,i,0,len(self.sortedValueList)-1)+1,self.size)
-        value = self.__sum(idx)
-        return value+1
 
+    def upper_bound(self, i):
+        return lower_bound(i + 1)
+
+    def lower_bound(self, i):
+        idx = min(
+            binarySearch(self.sortedValueList, i, 0, len(self.sortedValueList) - 1) + 1,
+            self.size,
+        )
+        value = self.__sum(idx)
+        return value + 1
 
     # iを削除
-    def remove(self,i):
-        i=self.value2Idx[i]
-        x=-1
-        self.length-=1
+    def remove(self, i):
+        i = self.value2Idx[i]
+        x = -1
+        self.length -= 1
         while i <= self.size:
             self.tree[i] += x
             i += i & -i
 
     # iを追加
-    def add(self,i):
-        i=self.value2Idx[i]
-        x=1
-        self.length+=1
+    def add(self, i):
+        i = self.value2Idx[i]
+        x = 1
+        self.length += 1
         while i <= self.size:
             self.tree[i] += x
             i += i & -i
+
     def __str__(self):
-        s=[]
+        s = []
         for i in range(self.__len__()):
-            s+=self.__getitem__(i+1),
+            s += (self.__getitem__(i + 1),)
         return str(s)
+
 
 # ABC217D
 L, Q = map(int, input().split())
