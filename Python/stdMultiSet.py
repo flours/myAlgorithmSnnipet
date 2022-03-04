@@ -16,6 +16,7 @@ def binarySearch(X, target, left, right):
 
 class stdMultiSet:
     def __init__(self, valueList):
+        valueList+=(min(valueList)-1,max(valueList)+1)
         self.size = 1 << len(set(valueList)).bit_length()
         self.tree = [0] * (self.size + 1)
         self.valueSet = set(valueList)
@@ -53,16 +54,22 @@ class stdMultiSet:
             i -= i & -i
         return s
 
+# upper_bound(x) xより大きい最小のインデックス
+# 最大値より大きい場合は最大のインデックスを返す
     def upper_bound(self, i):
-        return lower_bound(i + 1)
+        return self.lower_bound(i + 1)
 
+#lower_bound(x) x以上の最小のインデックス
+# 最大値より大きい場合は最大のインデックスを返す
     def lower_bound(self, i):
+        # 座圧のどのインデックスに対応するか確認
         idx = min(
-            binarySearch(self.sortedValueList, i, 0, len(self.sortedValueList) - 1) + 1,
+            binarySearch(self.sortedValueList, i-1, 0, len(self.sortedValueList) - 1) + 1,
             self.size,
         )
+        # idx以下の数字の個数(つまりインデックス)を求める
         value = self.__sum(idx)
-        return value + 1
+        return min(value + 1,self.length)
 
     # iを削除
     def remove(self, i):
@@ -89,23 +96,63 @@ class stdMultiSet:
         return str(s)
 
 
-# ABC217D
-L, Q = map(int, input().split())
-l = [0, L]
-queries = []
-for i in range(Q):
-    c, x = map(int, input().split())
-    if c == 1:
-        l += (x,)
-    queries += ((c, x),)
+def ABC217D():
+    L, Q = map(int, input().split())
+    l = [0, L]
+    queries = []
+    for i in range(Q):
+        c, x = map(int, input().split())
+        if c == 1:
+            l += (x,)
+        queries += ((c, x),)
 
-multiSet = stdMultiSet(l)  # 使用する可能性のある数値を入れて初期化
-multiSet.add(0)
-multiSet.add(L)
+    multiSet = stdMultiSet(l)  # 使用する可能性のある数値を入れて初期化
+    multiSet.add(0)
+    multiSet.add(L)
 
-for c, x in queries:
-    if c == 1:
-        multiSet.add(x)
-    else:
-        idx = multiSet.lower_bound(x)
-        print(multiSet[idx] - multiSet[idx - 1])
+    for c, x in queries:
+        if c == 1:
+            multiSet.add(x)
+        else:
+            idx = multiSet.lower_bound(x)
+            print(multiSet[idx] - multiSet[idx - 1])
+
+def ABC241D():
+    Q=int(input())
+    queries=[]
+    l=[]
+    for i in range(Q):
+        q=list(map(int,input().split()))
+        queries+=q,
+        l+=q[1],
+
+
+    multiSet=stdMultiSet(l)
+
+    for q in queries:
+        if q[0]==1:
+            multiSet.add(q[1])
+        if q[0]==2:
+            if len(multiSet)==0:
+                print(-1)
+                continue
+            idx=multiSet.upper_bound(q[1])
+            idx-=q[2]
+            if q[1]+1>multiSet[len(multiSet)]:
+                idx+=1
+            if 0<idx<=len(multiSet):
+                print(multiSet[idx])
+            else:
+                print(-1)
+        if q[0]==3:
+            if len(multiSet)==0:
+                print(-1)
+                continue
+            idx=multiSet.lower_bound(q[1])
+            idx+=q[2]-1
+            if q[1]>multiSet[len(multiSet)]:
+                idx+=1
+            if 0<idx<=len(multiSet):
+                print(multiSet[idx])
+            else:
+                print(-1)
