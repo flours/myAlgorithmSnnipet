@@ -5,7 +5,7 @@ def mat_mul(a, b, mod):
         for j in range(J):
             for k in range(K):
                 c[i][j] += a[i][k] * b[k][j]
-            c[i][j] %= mod
+                c[i][j] %= mod
     return c
 
 
