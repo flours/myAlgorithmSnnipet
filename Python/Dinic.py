@@ -1,5 +1,7 @@
 # Dinic's algorithm
 from collections import deque
+
+
 class Dinic:
     def __init__(self, N):
         self.N = N
@@ -18,7 +20,7 @@ class Dinic:
         self.G[v2].append(edge2)
 
     def bfs(self, s, t):
-        self.level = level = [None]*self.N
+        self.level = level = [None] * self.N
         deq = deque([s])
         level[s] = 0
         G = self.G
@@ -47,55 +49,57 @@ class Dinic:
 
     def flow(self, s, t):
         flow = 0
-        INF = 10**9 + 7
+        INF = 10 ** 9 + 7
         G = self.G
         while self.bfs(s, t):
-            *self.it, = map(iter, self.G)
+            (*self.it,) = map(iter, self.G)
             f = INF
             while f:
                 f = self.dfs(s, t, INF)
                 flow += f
         return flow
 
+
 def abc259g():
-    H,W=map(int,input().split())
-    f=[]
+    H, W = map(int, input().split())
+    f = []
     for i in range(H):
-        f+=list(map(int,input().split())),
+        f += (list(map(int, input().split())),)
 
+    dinic = Dinic(H + W + 2)
 
-    dinic=Dinic(H+W+2)
-
-    base=0
+    base = 0
     for i in range(H):
-        s,a=0,0
+        s, a = 0, 0
         for j in f[i]:
-            s+=abs(j)
-            a+=j
-        base+=s
+            s += abs(j)
+            a += j
+        base += s
         # 選ばない
-        dinic.add_edge(0, i+1, s)
+        dinic.add_edge(0, i + 1, s)
         # 選ぶ
-        dinic.add_edge(i+1,H+W+1,s-a)
+        dinic.add_edge(i + 1, H + W + 1, s - a)
 
     for i in range(W):
-        s,a=0,0
+        s, a = 0, 0
         for j in range(H):
-            j=f[j][i]
-            s+=abs(j)
-            a+=j
-        base+=s
+            j = f[j][i]
+            s += abs(j)
+            a += j
+        base += s
         # 選ぶ
-        dinic.add_edge(0, H+i+1, s-a)
+        dinic.add_edge(0, H + i + 1, s - a)
         # 選ばない
-        dinic.add_edge(H+i+1,H+W+1,s)
+        dinic.add_edge(H + i + 1, H + W + 1, s)
 
     for i in range(H):
         for j in range(W):
-            if f[i][j]<0:
-                dinic.add_edge(i+1,H+j+1,10**18)
+            if f[i][j] < 0:
+                dinic.add_edge(i + 1, H + j + 1, 10 ** 18)
             else:
-                dinic.add_edge(i+1,H+j+1,f[i][j])
+                dinic.add_edge(i + 1, H + j + 1, f[i][j])
 
-    print(base-dinic.flow(0,H+W+1))
+    print(base - dinic.flow(0, H + W + 1))
+
+
 abc259g()
