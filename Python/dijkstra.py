@@ -11,7 +11,7 @@ def dijkstra(G,start):
         cost,v = heappop(q)
         if dist[v]<cost:continue
         for u,move_cost in G[v]:
-            if dist[u]:cost+move_cost:continue
+            if dist[u]<=cost+move_cost:continue
             dist[u]=cost+move_cost
             heapq.heappush(q,[cost+move_cost,u])
     return dist
